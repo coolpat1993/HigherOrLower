@@ -82,6 +82,7 @@ class _HigherLowerGameBodyState extends State<HigherLowerGameBody> {
   ];
 
   late String _currentCard;
+  late String _prevCard = 'AD';
   late int _currentCardValue;
   int _score = 0;
   int _prevCardValue = 0;
@@ -119,10 +120,12 @@ class _HigherLowerGameBodyState extends State<HigherLowerGameBody> {
   }
 
   void _onHigherButtonPressed() {
+
     print(_prevCardValue);
     print(_currentCardValue);
     setState(() {
       _prevCardValue = _currentCardValue;
+      _prevCard = _currentCard;
       _generateNewCard();
       if (_getCardValue(_currentCard[0]) > _prevCardValue) {
         _score++;
@@ -133,7 +136,7 @@ class _HigherLowerGameBodyState extends State<HigherLowerGameBody> {
   }
 
   void _onLowerButtonPressed() {
-   setState(() {
+    setState(() {
       _prevCardValue = _currentCardValue;
       _generateNewCard();
       if (_getCardValue(_currentCard[0]) < _prevCardValue) {
@@ -149,8 +152,15 @@ class _HigherLowerGameBodyState extends State<HigherLowerGameBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          child: CardConverter(card: _currentCard, scale: 1, shadow: 1),
+        Row(
+          children: [
+            Container(
+              child: CardConverter(card: _prevCard, scale: 1, shadow: 1),
+            ),
+            Container(
+              child: CardConverter(card: _currentCard, scale: 1, shadow: 1),
+            ),
+          ],
         ),
         SizedBox(height: 16),
         Text(
